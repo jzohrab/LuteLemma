@@ -13,7 +13,12 @@ if (not os.path.exists(infile)):
     sys.exit(1)
 
 f = open(infile, 'r')
-lines = [ lin.split("\t") for lin in f.readlines() ]
+lines = f.readlines()
+
+# Only use unique lines.  Necessary as lemmatization can create dup
+# lines.
+lines = [ lin.split("\t") for lin in (list(set(lines))) ]
+
 by_parent_length = sorted(
     lines,
     key=lambda x: '_'.join([ '%03d' % len(x[1]), x[1], x[0] ])
