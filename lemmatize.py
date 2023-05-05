@@ -13,6 +13,21 @@ if (not os.path.exists(infile)):
     print(f"Missing input file {infile}", {infile: 'bla'})
     sys.exit(1)
 
+f = open(infile, 'r')
+lines = f.readlines()
+
+# https://www.geeksforgeeks.org/break-list-chunks-size-n-python/
+# Yield successive n-sized
+# chunks from arr.
+def divide_chunks(arr, n):
+    # looping till length arr
+    for i in range(0, len(arr), n):
+        yield arr[i:i + n]
+
+linegroups = list(divide_chunks(lines, 100))
+groups = [ ''.join(g).strip() for g in linegroups ]
+
+
 print("Opening library ...")
 from spacy_stanza import load_pipeline
 print("Done.")
@@ -34,12 +49,6 @@ if (not os.path.exists(langdir)):
     stanza.download(langcode, model_dir=downloaddir, processors="tokenize,mwt,pos,lemma")
     print("Done.")
 
-f = open(infile, 'r')
-text = f.read()
-# text = """
-# Los acomodé contra las paredes, pensando en la comodidad y no en la estética.
-# """
-
 print("Loading pipeline ...")
 nlp = load_pipeline(    
     langcode,
@@ -49,6 +58,7 @@ nlp = load_pipeline(
     logging_level='FATAL'
 )
 print("Done.  Processing doc ...")
+text = groups[0]
 doc = nlp(text)
 print("Done.")
 
