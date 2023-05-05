@@ -12,6 +12,9 @@ source .env/bin/activate
 # 2nd arg: path to file
 python3.11 -W ignore lemmatize.py es ../lute_dev/data/parents/1_terms.txt
 
+# Then run the sort-file to sort things ...
+# wip to be fixed.
+
 deactivate
 ```
 
