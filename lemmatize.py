@@ -10,7 +10,7 @@ langcode = ARGS[1]
 infile = ARGS[2]
 
 if (not os.path.exists(infile)):
-    print(f"Missing input file {infile}")
+    print(f"Missing input file {infile}", {infile: 'bla'})
     sys.exit(1)
 
 print("Opening library ...")
@@ -52,6 +52,14 @@ print("Done.  Processing doc ...")
 doc = nlp(text)
 print("Done.")
 
-lemmatized = [ token for token in doc if token.text != token.lemma_ ];
-for token in lemmatized:
-    print(token.text, token.lemma_)
+outfile=infile + '.import'
+lemmatized = [ token for token in doc if token.text != token.lemma_ ]
+child_parent = [ [ token.text, token.lemma_ ] for token in lemmatized ]
+by_parent_length = sorted(child_parent, key=lambda x: len(x[1]))
+
+with open(outfile, 'w') as writer:
+    for p in by_parent_length:
+        writer.write(f"{p[0]}\t{p[1]}\n")
+
+print(f"\nFile generated:\n{outfile}\n\n")
+print("Please remove any unwanted mappings from the file before importing.")

@@ -9,8 +9,8 @@ source .env/bin/activate
 # The call.
 # Ignore warnings with -W ignore
 # 1st arg: language code of the file
-# 2nd arg: file
-python3.11 -W ignore lemmatize.py es path/to/input/file
+# 2nd arg: path to file
+python3.11 -W ignore lemmatize.py es ../lute_dev/data/parents/1_terms.txt
 
 deactivate
 ```
