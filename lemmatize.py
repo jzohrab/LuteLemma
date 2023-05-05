@@ -57,19 +57,26 @@ nlp = load_pipeline(
     download_method=None,
     logging_level='FATAL'
 )
-print("Done.  Processing doc ...")
-text = groups[0]
-doc = nlp(text)
 print("Done.")
 
 outfile=infile + '.import'
-lemmatized = [ token for token in doc if token.text != token.lemma_ ]
-child_parent = [ [ token.text, token.lemma_ ] for token in lemmatized ]
-by_parent_length = sorted(child_parent, key=lambda x: len(x[1]))
+print(f"Writing to {outfile}")
 
+n = 0
+numgroups = len(groups)
 with open(outfile, 'w') as writer:
-    for p in by_parent_length:
-        writer.write(f"{p[0]}\t{p[1]}\n")
+    for text in groups:
+        n += 1
+        print(f'  {n} of {numgroups}')
+        doc = nlp(text)
+        lemmatized = [ token for token in doc if token.text != token.lemma_ ]
+        child_parent = [ [ token.text, token.lemma_ ] for token in lemmatized ]
+        by_parent_length = sorted(child_parent, key=lambda x: len(x[1]))
+
+        for p in by_parent_length:
+            writer.write(f"{p[0]}\t{p[1]}\n")
+
+        writer.flush()
 
 print(f"\nFile generated:\n{outfile}\n\n")
 print("Please remove any unwanted mappings from the file before importing.")
