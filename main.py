@@ -23,3 +23,4 @@ with open(outfile, 'w') as writer:
     generate_import(langcode, lines, writer)
 
 print(f"\nFile generated: {outfile}")
+print("\nPlease remove any mappings you don't want from this file before importing it.")

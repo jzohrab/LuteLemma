@@ -10,7 +10,7 @@ def divide_chunks(arr, n):
 
 
 def get_child_parent_pairs(langcode, lines):
-    linegroups = list(divide_chunks(lines, 10))
+    linegroups = list(divide_chunks(lines, 100))
     groups = [ ''.join(g).strip() for g in linegroups ]
 
     print("Opening library ...")
