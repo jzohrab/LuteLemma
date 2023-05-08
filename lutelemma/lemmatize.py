@@ -1,5 +1,16 @@
 import os
 
+def build_dict(arr):
+    d = dict()
+    for pair in arr:
+        child, parent = pair
+        if parent not in d:
+            d[parent] = []
+        if child not in d[parent]:
+            d[parent].extend(child)
+    return d
+
+
 # https://www.geeksforgeeks.org/break-list-chunks-size-n-python/
 # Yield successive n-sized
 # chunks from arr.
