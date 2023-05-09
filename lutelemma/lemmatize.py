@@ -7,8 +7,40 @@ def build_dict(arr):
         if parent not in d:
             d[parent] = []
         if child not in d[parent]:
-            d[parent].extend(child)
+            d[parent].extend([child])
     return d
+
+def single_child_parents(d):
+    ps = [ k for k, v in d.items() if len(v) == 1 ]
+    return ps
+
+def multi_child_parents(d):
+    ps = [ k for k, v in d.items() if len(v) > 1 ]
+    return ps
+
+def get_output_array(d):
+    arr = []
+    scp = sorted(single_child_parents(d))
+    arr.extend([f"### {len(scp)} single child parents:"])
+    for p in scp:
+        c = d[p][0]
+        arr.extend([f"{c}\t{p}"])
+    arr.extend([""])
+
+    ps = multi_child_parents(d)
+    arr.extend([f"### {len(ps)} multi-child parents:"])
+    lengths = set([ len(p) for p in ps ])
+    for length in lengths:
+        plen = [ p for p in ps if len(p) == length ]
+        plen = sorted(plen)
+        arr.extend([''])
+        arr.extend([f"# Length {length}:"])
+        for p in plen:
+            arr.extend([f"# {p} ({len(d[p])} children)"])
+            for c in sorted(d[p]):
+                arr.extend([f"{c}\t{p}"])
+
+    return arr
 
 
 # https://www.geeksforgeeks.org/break-list-chunks-size-n-python/
@@ -72,10 +104,8 @@ def get_child_parent_pairs(langcode, lines):
 
 def generate_import(langcode, lines, writer):
     arr = get_child_parent_pairs(langcode, lines)
-    # print(arr)
-    by_parent_length = sorted(
-        arr,
-        key=lambda x: '_'.join([ '%03d' % len(x[1]), x[1], x[0] ])
-    )
-    for p in by_parent_length:
-        writer.write(f"{p[0]}\t{p[1]}\n")
+    d = build_dict(arr)
+    outarr = get_output_array(d)
+    for lin in outarr:
+        writer.write(f"{lin}\n")
+    writer.flush()

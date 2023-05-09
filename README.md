@@ -4,31 +4,36 @@ A simple python 3.11 script to generate child-parent lemma mappings for import i
 
 This uses [spaCy-stanza](https://github.com/explosion/spacy-stanza), a wrapper around [Stanza](https://github.com/stanfordnlp/stanza) (formerly StanfordNLP) to find lemma.  Stanza has models for over 60 languages, see [this page](https://stanfordnlp.github.io/stanza/available_models.html) for the complete list.
 
-For example, given the following Spanish input file:
+For example, given the following Spanish input file (in demo/es_input.txt):
 
 ```
-érase
-una
-vez
-un
+perros
+perro
+perras
+vives
+vivimos
+vivieron
 muchacho
-que
-vivía
-con
-su
-madre
-tenían
+muchacha
+coches
+vez
 ```
 
-The script generates a file containing the following, where the first column is the original term and the second is a root, or lemma, form:
+The script generates a file containing the following commented file, where the first column is the original term and the second is a root, or lemma, form:
 
 ```
-lo	él
-érase	ér
-un	uno
-una	uno
-tenían	tener
-vivía	vivir
+### 3 single child parents:
+coches	coche
+perras	perra
+perros	perro
+
+### 1 multi-child parents:
+
+# Length 5 (1 parents):
+# vivir (3 children)
+vives	vivir
+vivieron	vivir
+vivimos	vivir
 ```
 
 Only cases where the lemma form differs from the original term are included, so this doesn't show the terms `muchacho`, `vez`, `que`, etc.
@@ -59,7 +64,7 @@ $ source .env/bin/activate
 # 2nd arg: path to input file
 # 3rd arg: path to the output file
 #
-$ python3.11 -W ignore main.py es terms_1.txt output_1.txt
+$ python3.11 -W ignore main.py es demo/es_input.txt output.txt
 Opening library ...
 Done.
 Loading pipeline ...
