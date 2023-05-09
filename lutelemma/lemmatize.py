@@ -3,7 +3,7 @@ import os
 def build_dict(arr):
     d = dict()
     for pair in arr:
-        child, parent = pair
+        parent, child = pair
         if parent not in d:
             d[parent] = []
         if child not in d[parent]:
@@ -24,7 +24,7 @@ def get_output_array(d):
     arr.extend([f"### {len(scp)} single child parents:"])
     for p in scp:
         c = d[p][0]
-        arr.extend([f"{c}\t{p}"])
+        arr.extend([f"{p}\t{c}"])
     arr.extend([""])
 
     ps = multi_child_parents(d)
@@ -34,11 +34,9 @@ def get_output_array(d):
         plen = [ p for p in ps if len(p) == length ]
         plen = sorted(plen)
         arr.extend([''])
-        arr.extend([f"# Length {length}:"])
         for p in plen:
-            arr.extend([f"# {p} ({len(d[p])} children)"])
             for c in sorted(d[p]):
-                arr.extend([f"{c}\t{p}"])
+                arr.extend([f"{p}\t{c}"])
 
     return arr
 
@@ -52,7 +50,9 @@ def divide_chunks(arr, n):
         yield arr[i:i + n]
 
 
-def get_child_parent_pairs(langcode, lines):
+# Returns array:
+# [ [ 'parent1' 'child1' ], [ 'p1', 'c2' ] ... ]
+def get_parent_child_pairs(langcode, lines):
     linegroups = list(divide_chunks(lines, 100))
     groups = [ ''.join(g).strip() for g in linegroups ]
 
@@ -94,7 +94,7 @@ def get_child_parent_pairs(langcode, lines):
         print(f'  {n} of {numgroups}')
         doc = nlp(text)
         child_parent = [
-            [ token.text.strip(), token.lemma_.strip() ]
+            [ token.lemma_.strip(), token.text.strip() ]
             for token in doc if token.text.strip() != ''
         ]
         ret.extend([ p for p in child_parent if p[0] != p[1] ])
@@ -103,7 +103,7 @@ def get_child_parent_pairs(langcode, lines):
 
 
 def generate_import(langcode, lines, writer):
-    arr = get_child_parent_pairs(langcode, lines)
+    arr = get_parent_child_pairs(langcode, lines)
     d = build_dict(arr)
     outarr = get_output_array(d)
     for lin in outarr:

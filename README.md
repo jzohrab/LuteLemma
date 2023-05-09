@@ -19,21 +19,19 @@ coches
 vez
 ```
 
-The script generates a file containing the following commented file, where the first column is the original term and the second is a root, or lemma, form:
+The script generates a file containing the following commented file, where the first column is the root or parent form, and the second is the child form from the input file:
 
 ```
 ### 3 single child parents:
-coches	coche
-perras	perra
-perros	perro
+coche	coches
+perra	perras
+perro	perros
 
 ### 1 multi-child parents:
 
-# Length 5 (1 parents):
-# vivir (3 children)
-vives	vivir
-vivieron	vivir
-vivimos	vivir
+vivir	vives
+vivir	vivieron
+vivir	vivimos
 ```
 
 Only cases where the lemma form differs from the original term are included, so this doesn't show the terms `muchacho`, `vez`, `que`, etc.
