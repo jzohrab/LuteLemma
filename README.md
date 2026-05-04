@@ -19,19 +19,16 @@ coches
 vez
 ```
 
-The script generates a file containing the following commented file, where the first column is the root or parent form, and the second is the child form from the input file:
+The script generates a csv file containing the following (Lute term import csv), with the root form in the `parent` column, and the the child form from the input file under `term`:
 
 ```
-### 3 single child parents:
-coche	coches
-perra	perras
-perro	perros
-
-### 1 multi-child parents:
-
-vivir	vives
-vivir	vivieron
-vivir	vivimos
+language,term,translation,parent,tags,pronunciation
+Spanish,coche,,coches,,
+Spanish,perra,,perras,,
+Spanish,perro,,perros,,
+Spanish,vivir,,vives,,
+Spanish,vivir,,vivieron,,
+Spanish,vivir,,vivimos,,
 ```
 
 Only cases where the lemma form differs from the original term are included, so this doesn't show the terms `muchacho`, `vez`, `que`, etc.
@@ -59,11 +56,12 @@ $ source .env/bin/activate
 
 # Ignore warnings with -W ignore
 #
-# 1st arg: Stanza language code of the terms (link below)
-# 2nd arg: path to input file
-# 3rd arg: path to the output file
+# 1st arg: LUTE language name
+# 2nd arg: Stanza language code of the terms (link below)
+# 3rd arg: path to input file
+# 4th arg: path to the output file
 #
-$ python3.11 -W ignore main.py es demo/es_input.txt output.txt
+$ python3.11 -W ignore main.py Spanish es demo/es_input.txt output.txt
 Opening library ...
 Done.
 Loading pipeline ...
