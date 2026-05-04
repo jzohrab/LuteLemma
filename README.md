@@ -1,6 +1,6 @@
 # Lute Lemma
 
-A simple python 3.11 script to generate child-parent lemma mappings for import into [Lute](https://github.com/jzohrab/lute).
+A simple python 3 script to generate child-parent lemma mappings for import into [Lute](https://github.com/LuteOrg/lute).
 
 This uses [spaCy-stanza](https://github.com/explosion/spacy-stanza), a wrapper around [Stanza](https://github.com/stanfordnlp/stanza) (formerly StanfordNLP) to find lemma.  Stanza has models for over 60 languages, see [this page](https://stanfordnlp.github.io/stanza/available_models.html) for the complete list.
 
@@ -37,11 +37,11 @@ _(If you know Spanish, you'll see that some of the above aren't really useful ..
 
 ## Requirements
 
-* python3.11 (perhaps will work with earlier versions, untested)
+* python3 (I've only tested this with python 3.11, it may work with earlier versions)
 
 ## Installation
 
-Use pip3.11:
+Note this uses python3.11 explictly.
 
 ```
 python3.11 -m venv .env
@@ -61,7 +61,7 @@ $ source .env/bin/activate
 # 3rd arg: path to input file
 # 4th arg: path to the output file
 #
-$ python3.11 -W ignore main.py Spanish es demo/es_input.txt output.txt
+$ python -W ignore main.py Spanish es demo/es_input.txt output.txt
 Opening library ...
 Done.
 Loading pipeline ...
@@ -79,4 +79,4 @@ Please remove any mappings you don't want from this file before importing it.
 
 - https://github.com/explosion/spacy-stanza
 - https://stanfordnlp.github.io/stanza/download_models.html
-- https://github.com/jzohrab/lute
+- https://github.com/LuteOrg/lute
